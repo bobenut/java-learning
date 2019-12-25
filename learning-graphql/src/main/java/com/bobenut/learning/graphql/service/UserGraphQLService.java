@@ -8,7 +8,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bobenut.learning.graphql.datafetcher.UserDataFetcher;
+import com.bobenut.learning.graphql.datafetcher.UsersDataFetcher;
+import com.bobenut.learning.graphql.datafetcher.UsersPageableDataFetcher;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
@@ -23,13 +24,16 @@ import graphql.schema.idl.TypeDefinitionRegistry;
 public class UserGraphQLService {
 	
 	@Autowired
-	private UserDataFetcher userDataFetcher;
+	private UsersDataFetcher usersDataFetcher;
+	
+	@Autowired
+	private UsersPageableDataFetcher  usersPageableDataFetcher;
 	
 	private GraphQL graphQL;
 	
 	@PostConstruct
 	public void init() throws IOException {
-        URL url = Resources.getResource("user.graphql");
+        URL url = Resources.getResource("user.graphqls");
         String sdl = Resources.toString(url, Charsets.UTF_8);
         GraphQLSchema graphQLSchema = buildSchema(sdl);
         this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
@@ -44,7 +48,9 @@ public class UserGraphQLService {
 
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
-                .type("Query", typeWiring -> typeWiring.dataFetcher("allUsers", userDataFetcher))
+                .type("Query", typeWiring -> 
+                	typeWiring.dataFetcher("getUsers", usersDataFetcher)
+                	.dataFetcher("getUsersPageable", usersPageableDataFetcher))
                 .build();
     }
     

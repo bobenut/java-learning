@@ -1,0 +1,26 @@
+schema {
+    query: Query
+}
+
+type Query {
+	getUsers(pageIndex: Int, pageSize: Int): [User]
+	getUsersPageable(pageIndex: Int, pageSize: Int): UsersPageable
+	user(username: String): User
+}
+
+type User {
+	id: ID,
+	username: String,
+	password: String,
+	nickname: String
+}
+
+type UsersPageable {
+	ascs: [String],
+	current: Long,
+	descs: [String],
+	records: [User],
+	size: Long,
+	total: Long
+}
+

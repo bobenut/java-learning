@@ -1,0 +1,7 @@
+com.bobenut.learning.graphql
+com.bobenut.learning.graphql.config
+com.bobenut.learning.graphql.controller
+com.bobenut.learning.graphql.datafetcher
+com.bobenut.learning.graphql.domain
+com.bobenut.learning.graphql.mapper
+com.bobenut.learning.graphql.service
